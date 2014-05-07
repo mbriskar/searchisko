@@ -5,9 +5,20 @@
  */
 package org.searchisko.api.rest;
 
-import java.util.UUID;
-import java.util.logging.Logger;
+import org.elasticsearch.action.search.MultiSearchRequestBuilder;
+import org.elasticsearch.action.search.MultiSearchResponse;
+import org.elasticsearch.action.search.SearchRequestBuilder;
+import org.elasticsearch.action.search.SearchType;
+import org.elasticsearch.client.Client;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.searchisko.api.ContentObjectFields;
+import org.searchisko.api.model.QuerySettings;
+import org.searchisko.api.rest.exception.BadFieldException;
+import org.searchisko.api.rest.exception.RequiredFieldException;
+import org.searchisko.api.service.SearchClientService;
+import org.searchisko.api.util.SearchUtils;
 
+import javax.annotation.security.PermitAll;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -18,20 +29,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
-
-import org.elasticsearch.action.search.MultiSearchRequestBuilder;
-import org.elasticsearch.action.search.MultiSearchResponse;
-import org.elasticsearch.action.search.SearchRequestBuilder;
-import org.elasticsearch.action.search.SearchType;
-import org.elasticsearch.client.Client;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.searchisko.api.ContentObjectFields;
-import org.searchisko.api.annotations.security.GuestAllowed;
-import org.searchisko.api.model.QuerySettings;
-import org.searchisko.api.rest.exception.BadFieldException;
-import org.searchisko.api.rest.exception.RequiredFieldException;
-import org.searchisko.api.service.SearchClientService;
-import org.searchisko.api.util.SearchUtils;
+import java.util.UUID;
+import java.util.logging.Logger;
 
 /**
  * Suggestions REST API.
@@ -66,7 +65,7 @@ public class SuggestionsRestService extends RestServiceBase {
 	@GET
 	@Path("/query_string")
 	@Produces(MediaType.APPLICATION_JSON)
-	@GuestAllowed
+	@PermitAll
 	public Object queryString(@Context UriInfo uriInfo) {
 
 		MultivaluedMap<String, String> params = uriInfo.getQueryParameters();
@@ -81,7 +80,7 @@ public class SuggestionsRestService extends RestServiceBase {
 	@GET
 	@Path("/project")
 	@Produces(MediaType.APPLICATION_JSON)
-	@GuestAllowed
+	@PermitAll
 	public Object project(@QueryParam(QuerySettings.QUERY_KEY) String query,
 			@QueryParam(QuerySettings.SIZE_KEY) Integer size) {
 
