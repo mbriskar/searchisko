@@ -6,12 +6,29 @@ This module contains integration tests powered by Arquillian.
 Set Up
 ------
 
-It's necessary to have unpacked JBoss AS / JBoss EAP bundle.
+It's necessary to have an unpacked JBoss AS / JBoss EAP bundle.
 Set environment variable `JBOSS_HOME` to AS location e.g.
 
 	export JBOSS_HOME={your user home}/app/INTEG-TEST-jboss-eap-6.2.2
 
-Integration tests are executed againts AS with `standalone-full.xml` profile as default.
+Integration tests are executed against AS with `standalone-full.xml` profile as default.
+
+It's needed to add security domain `SearchiskoSecurityDomain` into the `$JBOSS_HOME/standalone/configuration/standalone-full.xml` e.g.
+
+		<subsystem xmlns="urn:jboss:domain:security:1.2">
+            <security-domains>
+				<security-domain name="SearchiskoSecurityDomain">
+					<authentication>
+						<login-module code="org.searchisko.api.security.jaas.ProviderLoginModule" flag="sufficient">
+						</login-module>
+					</authentication>
+				</security-domain>
+                ...
+            </security-domains>
+        </subsystem>
+
+You can see example in `.openshift/config/standalone.xml`
+
 
 Running tests
 -------------
@@ -32,7 +49,7 @@ Log levels tuning
 -----------------
 
 It's good idea to show only relevant information in the log.
-Navigate to `${JBOSS_HOME}/standalone/configuration/standalone.xml` and change console-handler level to FINEST:
+Navigate to `${JBOSS_HOME}/standalone/configuration/standalone-full.xml` and change console-handler level to FINEST:
 
     <subsystem xmlns="urn:jboss:domain:logging:1.3">
 		<console-handler name="CONSOLE">
