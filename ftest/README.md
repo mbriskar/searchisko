@@ -11,9 +11,9 @@ Set environment variable `JBOSS_HOME` to AS location e.g.
 
 	export JBOSS_HOME={your user home}/app/INTEG-TEST-jboss-eap-6.2.2
 
-Integration tests are executed against AS with `standalone-full.xml` profile as default.
+Integration tests are executed against AS with `standalone.xml` profile as default.
 
-It's needed to add security domain `SearchiskoSecurityDomain` into the `$JBOSS_HOME/standalone/configuration/standalone-full.xml` e.g.
+It's needed to add security domain `SearchiskoSecurityDomain` into the `$JBOSS_HOME/standalone/configuration/standalone.xml` e.g.
 
 		<subsystem xmlns="urn:jboss:domain:security:1.2">
             <security-domains>
@@ -49,7 +49,7 @@ Log levels tuning
 -----------------
 
 It's good idea to show only relevant information in the log.
-Navigate to `${JBOSS_HOME}/standalone/configuration/standalone-full.xml` and change console-handler level to FINEST:
+Navigate to `${JBOSS_HOME}/standalone/configuration/standalone.xml` and change console-handler level to FINEST:
 
     <subsystem xmlns="urn:jboss:domain:logging:1.3">
 		<console-handler name="CONSOLE">
