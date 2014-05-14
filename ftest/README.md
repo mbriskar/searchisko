@@ -13,7 +13,7 @@ Set environment variable `JBOSS_HOME` to AS location e.g.
 
 Integration tests are executed against AS with `standalone.xml` profile as default.
 
-It's needed to add security domain `SearchiskoSecurityDomain` into the `$JBOSS_HOME/standalone/configuration/standalone.xml` e.g.
+It's needed to add security domain `SearchiskoSecurityDomainFTEST` into the `$JBOSS_HOME/standalone/configuration/standalone.xml` e.g.
 
 		<subsystem xmlns="urn:jboss:domain:security:1.2">
             <security-domains>
@@ -21,14 +21,18 @@ It's needed to add security domain `SearchiskoSecurityDomain` into the `$JBOSS_H
 					<authentication>
 						<login-module code="org.searchisko.api.security.jaas.ProviderLoginModule" flag="sufficient">
 						</login-module>
+						<login-module code="org.jboss.security.auth.spi.UsersRolesLoginModule" flag="sufficient">
+							<module-option name="principalClass" value="org.searchisko.api.security.jaas.ContributorPrincipal" />
+							<module-option name="usersProperties" value="searchisko-ftest-users.properties" /> 
+							<module-option name="rolesProperties" value="searchisko-ftest-roles.properties" />
+						</login-module>
 					</authentication>
 				</security-domain>
                 ...
             </security-domains>
         </subsystem>
 
-You can see example in `.openshift/config/standalone.xml`
-
+Note: Security domain name is intentionally different because functional tests uses HTTP Basic authentication to authenticate contributors.
 
 Running tests
 -------------
